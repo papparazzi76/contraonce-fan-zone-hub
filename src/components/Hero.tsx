@@ -5,18 +5,25 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <div className="relative bg-gray-50 overflow-hidden pt-16">
+    <div className="relative bg-gray-900 overflow-hidden pt-16">
+      {/* Hero background image */}
       <div className="absolute inset-0 z-0">
-        <div className="bg-gradient-to-br from-brand-green/10 to-brand-gold/5 h-full w-full"></div>
+        <img 
+          src="/lovable-uploads/1a2e5c65-e67b-465d-acfa-a3a9b4b858be.png"
+          alt="Portero atajando un balón"
+          className="w-full h-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/70"></div>
       </div>
       
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="animate-fade-in">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display text-brand-black mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display text-white mb-6 leading-tight">
               FÚTBOL, <span className="text-brand-green">PASIÓN</span> Y <span className="text-brand-gold">COMUNIDAD</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-200 mb-8">
               La plataforma definitiva para los verdaderos amantes del fútbol. 
               Coleccionismo, historia, predicciones y recompensas en un solo lugar.
             </p>
@@ -27,7 +34,7 @@ const Hero = () => {
                 </Button>
               </Link>
               <Link to="/tienda">
-                <Button size="lg" variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green/10">
+                <Button size="lg" variant="outline" className="border-brand-green text-white hover:bg-brand-green/20">
                   Explorar tienda
                 </Button>
               </Link>
@@ -43,7 +50,7 @@ const Hero = () => {
                   </div>
                 ))}
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-white">
                 +50.000 aficionados ya forman parte
               </p>
             </div>
@@ -53,7 +60,7 @@ const Hero = () => {
             <div className="relative w-full max-w-md animate-scale-up">
               <div className="absolute -top-6 -left-6 w-24 h-24 bg-brand-gold rounded-full opacity-20"></div>
               <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-green rounded-full opacity-20"></div>
-              <div className="relative bg-white p-6 rounded-2xl shadow-xl">
+              <div className="relative bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white/20">
                 <img 
                   src="/lovable-uploads/d58c6cde-bb6b-4db1-98ff-4edf73f43433.png"
                   alt="11contraonce"
@@ -61,8 +68,8 @@ const Hero = () => {
                 />
                 <div className="mt-6 flex justify-between items-center">
                   <div>
-                    <p className="font-display text-2xl">ÚNETE HOY</p>
-                    <p className="text-sm text-gray-500">Y gana 50 goles de bienvenida</p>
+                    <p className="font-display text-2xl text-white">ÚNETE HOY</p>
+                    <p className="text-sm text-gray-300">Y gana 50 goles de bienvenida</p>
                   </div>
                   <div className="bg-brand-green text-white px-4 py-2 rounded-lg font-semibold">
                     +50
@@ -74,7 +81,7 @@ const Hero = () => {
         </div>
       </div>
       
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-900 to-transparent"></div>
     </div>
   );
 };

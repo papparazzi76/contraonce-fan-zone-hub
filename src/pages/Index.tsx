@@ -11,7 +11,7 @@ import CTASection from "@/components/CTASection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-900 text-white">
       <Navbar />
       <Hero />
       <Features />
