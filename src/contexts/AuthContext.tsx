@@ -13,6 +13,7 @@ type AuthContextType = {
   signInWithEmail: (email: string, password: string) => Promise<void>;
   signUpWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  authError: string | null;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,7 +22,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [authError, setAuthError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check for auth error in URL
+    const url = new URL(window.location.href);
+    const error = url.searchParams.get('error');
+    const errorDescription = url.searchParams.get('error_description');
+    
+    if (error) {
+      const errorMessage = errorDescription || error;
+      setAuthError(errorMessage);
+      toast.error(`Error de autenticación: ${errorMessage}`);
+      console.error('Error en autenticación:', error, errorDescription);
+      
+      // Clean up URL
+      const cleanUrl = url.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+  }, []);
 
   useEffect(() => {
     // Configurar el listener de cambios de autenticación
@@ -30,6 +50,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         console.log('Auth state changed:', event);
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
+        
+        // Clear any auth errors on successful authentication
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          setAuthError(null);
+        }
       }
     );
 
@@ -45,8 +70,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signInWithGoogle = async () => {
+    setAuthError(null);
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { error, data } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: window.location.origin + '/auth',
@@ -58,16 +84,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (error) {
-        toast.error('Error al iniciar sesión con Google');
-        console.error('Error de autenticación:', error);
+        setAuthError(error.message);
+        toast.error(`Error al iniciar sesión con Google: ${error.message}`);
+        console.error('Error de autenticación con Google:', error);
       }
+      
+      // Note: No need to redirect here as OAuth flow will handle the redirect
     } catch (error) {
-      toast.error('Error al iniciar sesión con Google');
-      console.error('Error inesperado:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      setAuthError(errorMessage);
+      toast.error(`Error al iniciar sesión con Google: ${errorMessage}`);
+      console.error('Error inesperado en Google Auth:', error);
     }
   };
 
   const signInWithEmail = async (email: string, password: string) => {
+    setAuthError(null);
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -75,19 +107,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (error) {
+        setAuthError(error.message);
         toast.error(`Error al iniciar sesión: ${error.message}`);
-        console.error('Error de autenticación:', error);
+        console.error('Error de autenticación con email:', error);
       } else {
         toast.success('Inicio de sesión exitoso');
         navigate('/');
       }
     } catch (error) {
-      toast.error('Error al iniciar sesión');
-      console.error('Error inesperado:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      setAuthError(errorMessage);
+      toast.error(`Error al iniciar sesión: ${errorMessage}`);
+      console.error('Error inesperado en email auth:', error);
     }
   };
 
   const signUpWithEmail = async (email: string, password: string) => {
+    setAuthError(null);
     try {
       const { error } = await supabase.auth.signUp({
         email,
@@ -98,14 +134,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (error) {
+        setAuthError(error.message);
         toast.error(`Error al registrarse: ${error.message}`);
         console.error('Error de registro:', error);
       } else {
         toast.success('Registro exitoso. Verifica tu correo electrónico para confirmar tu cuenta.');
       }
     } catch (error) {
-      toast.error('Error al registrarse');
-      console.error('Error inesperado:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      setAuthError(errorMessage);
+      toast.error(`Error al registrarse: ${errorMessage}`);
+      console.error('Error inesperado en registro:', error);
     }
   };
 
@@ -115,13 +154,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       toast.success('Has cerrado sesión correctamente');
       navigate('/');
     } catch (error) {
-      toast.error('Error al cerrar sesión');
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      toast.error(`Error al cerrar sesión: ${errorMessage}`);
       console.error('Error al cerrar sesión:', error);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ session, user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, signOut }}>
+    <AuthContext.Provider value={{ session, user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, signOut, authError }}>
       {children}
     </AuthContext.Provider>
   );

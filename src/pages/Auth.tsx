@@ -8,12 +8,14 @@ import { Label } from '@/components/ui/label';
 import { FcGoogle } from 'react-icons/fc';
 import { toast } from '@/components/ui/sonner';
 import { z } from 'zod';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 
 const emailSchema = z.string().email("Ingresa un correo electrónico válido");
 const passwordSchema = z.string().min(6, "La contraseña debe tener al menos 6 caracteres");
 
 const Auth = () => {
-  const { user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
+  const { user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, authError } = useAuth();
   const navigate = useNavigate();
   
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -21,18 +23,6 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState<{ email?: string; password?: string; confirmPassword?: string }>({});
-
-  // Verificar si hay un error en la URL
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const error = url.searchParams.get('error');
-    const errorDescription = url.searchParams.get('error_description');
-    
-    if (error) {
-      toast.error(`Error de autenticación: ${errorDescription || error}`);
-      console.error('Error en la autenticación:', error, errorDescription);
-    }
-  }, []);
 
   // Redirigir si el usuario ya está autenticado
   if (user && !loading) {
@@ -110,6 +100,16 @@ const Auth = () => {
             </button>
           </p>
         </div>
+        
+        {authError && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error de autenticación</AlertTitle>
+            <AlertDescription>
+              {authError}
+            </AlertDescription>
+          </Alert>
+        )}
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
