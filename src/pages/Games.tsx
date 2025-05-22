@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,8 +7,30 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import FantasyLeague from "@/components/Fantasy/FantasyLeague";
 import { Helmet } from "react-helmet-async";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Games = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const currentPath = location.pathname;
+  
+  // Determine which tab should be active based on URL
+  let defaultTab = "fantasy";
+  if (currentPath.includes("/juegos/porra")) defaultTab = "porra";
+  if (currentPath.includes("/juegos/trivias")) defaultTab = "trivias";
+  if (currentPath.includes("/juegos/penaltis")) defaultTab = "penaltis";
+  
+  // Handle tab change to update URL
+  const handleTabChange = (value: string) => {
+    navigate(`/juegos/${value}`);
+  };
+  
+  // Set the tab based on URL when component mounts or URL changes
+  useEffect(() => {
+    // This is only needed if we want to sync the URL with the tab state
+    // when the URL changes from elsewhere
+  }, [currentPath]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Helmet>
@@ -26,7 +48,7 @@ const Games = () => {
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <Tabs defaultValue="fantasy" className="w-full">
+        <Tabs defaultValue={defaultTab} value={defaultTab} onValueChange={handleTabChange} className="w-full">
           <TabsList className="grid w-full grid-cols-4 mb-8">
             <TabsTrigger value="fantasy">Fantasy League</TabsTrigger>
             <TabsTrigger value="porra">Porra Semanal</TabsTrigger>
