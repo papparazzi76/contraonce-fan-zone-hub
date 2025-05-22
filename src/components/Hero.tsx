@@ -13,8 +13,8 @@ const Hero = () => {
           alt="Portero atajando un balón"
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/70"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60"></div>
       </div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 z-10">
