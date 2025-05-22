@@ -1,57 +1,52 @@
 
 import React from "react";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 interface FeatureCardProps {
   title: string;
   description: string;
   icon: React.ReactNode;
-  className?: string;
-  buttonText?: string;
-  buttonLink?: string;
+  buttonText: string;
+  buttonLink: string;
 }
 
 const FeatureCard = ({
   title,
   description,
   icon,
-  className,
-  buttonText = "Explorar",
-  buttonLink = "#"
+  buttonText,
+  buttonLink,
 }: FeatureCardProps) => {
+  // Handle both internal links (starting with /) and anchor links (starting with #)
+  const isInternalLink = buttonLink.startsWith("/");
+  const isAnchorLink = buttonLink.startsWith("#");
+  
   return (
-    <div 
-      className={cn(
-        "bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover-scale hover:shadow-lg border border-gray-100",
-        className
-      )}
-    >
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-display">{title}</h3>
-          <div className="bg-brand-green/10 p-2 rounded-full">{icon}</div>
+    <Card className="border rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+      <CardContent className="p-6 flex flex-col h-full">
+        <div className="flex items-center gap-2 mb-3">
+          {icon}
+          <h3 className="font-display text-xl">{title}</h3>
         </div>
-        <p className="text-gray-600 mb-4">{description}</p>
-        <a 
-          href={buttonLink}
-          className="inline-flex items-center font-medium text-brand-green hover:text-brand-green/80"
-        >
-          {buttonText}
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            className="ml-1 h-4 w-4"
-            viewBox="0 0 20 20" 
-            fill="currentColor"
-          >
-            <path 
-              fillRule="evenodd"
-              d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </a>
-      </div>
-    </div>
+        <p className="text-gray-600 mb-6 flex-grow">{description}</p>
+        
+        {isInternalLink ? (
+          <Link to={buttonLink}>
+            <Button className="bg-brand-green hover:bg-brand-green/90 w-full">
+              {buttonText}
+            </Button>
+          </Link>
+        ) : (
+          <a href={buttonLink}>
+            <Button className="bg-brand-green hover:bg-brand-green/90 w-full">
+              {buttonText}
+            </Button>
+          </a>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 

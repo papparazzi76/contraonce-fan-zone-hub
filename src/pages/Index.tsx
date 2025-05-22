@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -14,7 +13,8 @@ const Index = () => {
       title: "Tienda",
       description: "Equipaciones actuales, vintage, merchandising y coleccionables exclusivos.",
       icon: <CircleDashed size={24} className="text-brand-green" />,
-      buttonText: "Ir a la tienda"
+      buttonText: "Ir a la tienda",
+      buttonLink: "/tienda"
     },
     {
       id: "retro",
