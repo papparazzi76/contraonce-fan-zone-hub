@@ -2,30 +2,51 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import FantasyLeague from "./Fantasy/FantasyLeague";
+import { Link } from "react-router-dom";
+import { Gamepad } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const GameSection = () => {
+  const navigate = useNavigate();
+
   // Game section content
   const games = [
     {
+      id: "porra",
       name: "Porra Semanal",
-      desc: "Predice resultados y gana puntos"
+      desc: "Predice resultados y gana puntos",
+      path: "/juegos/porra"
     },
     {
+      id: "fantasy",
       name: "Fantasy League",
-      desc: "Crea tu equipo ideal"
+      desc: "Crea tu equipo ideal",
+      path: "/juegos/fantasy"
     },
     {
+      id: "trivias",
       name: "Trivias",
-      desc: "Pon a prueba tus conocimientos"
+      desc: "Pon a prueba tus conocimientos",
+      path: "/juegos/trivias"
     },
     {
+      id: "penaltis",
       name: "Penaltis",
-      desc: "Minijuego arcade"
+      desc: "Minijuego arcade",
+      path: "/juegos/penaltis"
     }
   ];
 
+  const handleGameClick = (gameId) => {
+    // For now, just navigate to the path. In the future, this could do more
+    const game = games.find(g => g.id === gameId);
+    if (game) {
+      navigate(game.path);
+    }
+  };
+
   return (
-    <section className="bg-gray-50 py-16" id="juegos-preview">
+    <section className="bg-gray-50 py-16" id="juegos">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
@@ -38,8 +59,9 @@ const GameSection = () => {
             <div className="grid grid-cols-2 gap-4 mb-8">
               {games.map((game, index) => (
                 <div 
-                  key={index}
-                  className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover-scale"
+                  key={game.id}
+                  onClick={() => handleGameClick(game.id)}
+                  className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover-scale cursor-pointer transition-all hover:shadow-md"
                 >
                   <h3 className="font-display text-lg">{game.name}</h3>
                   <p className="text-sm text-gray-500">{game.desc}</p>
@@ -47,7 +69,11 @@ const GameSection = () => {
               ))}
             </div>
             
-            <Button className="bg-brand-green hover:bg-brand-green/90">
+            <Button 
+              onClick={() => navigate("/juegos")} 
+              className="bg-brand-green hover:bg-brand-green/90 gap-2"
+            >
+              <Gamepad size={18} />
               Juega ahora
             </Button>
           </div>
@@ -177,7 +203,12 @@ const GameSection = () => {
         </div>
         
         <div className="text-center mt-12">
-          <Button className="bg-brand-green hover:bg-brand-green/90" size="lg">
+          <Button 
+            onClick={() => navigate("/juegos/fantasy")} 
+            className="bg-brand-green hover:bg-brand-green/90 gap-2" 
+            size="lg"
+          >
+            <Gamepad size={20} />
             Regístrate y crea tu equipo
           </Button>
         </div>
@@ -187,3 +218,4 @@ const GameSection = () => {
 };
 
 export default GameSection;
+
