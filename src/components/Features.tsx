@@ -27,7 +27,7 @@ const Features = () => {
       description: "Conecta con otros aficionados, comparte contenido y participa en foros temáticos.",
       icon: <Medal size={24} className="text-brand-green" />,
       buttonText: "Únete ahora",
-      buttonLink: "#comunidad"
+      buttonLink: "/comunidad"
     },
     {
       id: "juegos",

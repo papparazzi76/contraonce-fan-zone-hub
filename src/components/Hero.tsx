@@ -21,9 +21,11 @@ const Hero = () => {
               Coleccionismo, historia, predicciones y recompensas en un solo lugar.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-brand-green hover:bg-brand-green/90">
-                Únete a la comunidad
-              </Button>
+              <Link to="/comunidad">
+                <Button size="lg" className="bg-brand-green hover:bg-brand-green/90">
+                  Únete a la comunidad
+                </Button>
+              </Link>
               <Link to="/tienda">
                 <Button size="lg" variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green/10">
                   Explorar tienda

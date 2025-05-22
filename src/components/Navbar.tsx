@@ -14,7 +14,7 @@ const Navbar = () => {
   const navItems = [
     { label: "Tienda", href: "/tienda" },
     { label: "Retro Corner", href: "/retro" },
-    { label: "Comunidad", href: "#comunidad" },
+    { label: "Comunidad", href: "/comunidad" },
     { label: "Juegos", href: "#juegos" },
     { label: "Recompensas", href: "#recompensas" }
   ];
@@ -57,9 +57,11 @@ const Navbar = () => {
           </div>
           
           <div className="hidden md:flex md:items-center">
-            <Button className="bg-brand-green hover:bg-brand-green/90">
-              Únete ahora
-            </Button>
+            <Link to="/comunidad">
+              <Button className="bg-brand-green hover:bg-brand-green/90">
+                Únete ahora
+              </Button>
+            </Link>
           </div>
           
           <div className="flex md:hidden">
@@ -99,9 +101,11 @@ const Navbar = () => {
               )
             ))}
             <div className="mt-4 px-3 py-2">
-              <Button className="bg-brand-green hover:bg-brand-green/90 w-full">
-                Únete ahora
-              </Button>
+              <Link to="/comunidad" onClick={toggleMenu}>
+                <Button className="bg-brand-green hover:bg-brand-green/90 w-full">
+                  Únete ahora
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
