@@ -5,7 +5,7 @@ import Hero from "@/components/Hero";
 import FeatureCard from "@/components/FeatureCard";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Trophy, Ball, Whistle } from "lucide-react";
+import { Trophy, Football, Medal } from "lucide-react";
 
 const Index = () => {
   const features = [
@@ -13,7 +13,7 @@ const Index = () => {
       id: "tienda",
       title: "Tienda",
       description: "Equipaciones actuales, vintage, merchandising y coleccionables exclusivos.",
-      icon: <Ball size={24} className="text-brand-green" />,
+      icon: <Football size={24} className="text-brand-green" />,
       buttonText: "Ir a la tienda"
     },
     {
@@ -27,14 +27,14 @@ const Index = () => {
       id: "comunidad",
       title: "Comunidad",
       description: "Conecta con otros aficionados, comparte contenido y participa en foros temáticos.",
-      icon: <Whistle size={24} className="text-brand-green" />,
+      icon: <Medal size={24} className="text-brand-green" />,
       buttonText: "Únete ahora"
     },
     {
       id: "juegos",
       title: "Juegos",
       description: "Porra semanal, fantasy league, minijuegos y retos para ganar puntos y recompensas.",
-      icon: <Ball size={24} className="text-brand-green" />,
+      icon: <Football size={24} className="text-brand-green" />,
       buttonText: "Jugar ahora"
     }
   ];
