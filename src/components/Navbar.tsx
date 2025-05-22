@@ -2,10 +2,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -18,6 +21,17 @@ const Navbar = () => {
     { label: "Juegos", href: "#juegos" },
     { label: "Recompensas", href: "#recompensas" }
   ];
+
+  const getUserInitials = () => {
+    if (!user || !user.user_metadata) return '??';
+    
+    const name = user.user_metadata.name || user.user_metadata.full_name;
+    if (!name) return user.email?.substring(0, 2).toUpperCase() || '??';
+    
+    const nameParts = name.split(' ');
+    if (nameParts.length === 1) return nameParts[0].substring(0, 2).toUpperCase();
+    return (nameParts[0][0] + nameParts[1][0]).toUpperCase();
+  };
 
   return (
     <nav className="bg-white shadow-sm fixed top-0 left-0 right-0 z-50">
@@ -56,12 +70,33 @@ const Navbar = () => {
             ))}
           </div>
           
-          <div className="hidden md:flex md:items-center">
-            <Link to="/comunidad">
-              <Button className="bg-brand-green hover:bg-brand-green/90">
-                Únete ahora
-              </Button>
-            </Link>
+          <div className="hidden md:flex md:items-center gap-4">
+            {user ? (
+              <div className="flex items-center gap-3">
+                <Avatar className="h-8 w-8 border border-brand-green">
+                  <AvatarImage src={user.user_metadata?.avatar_url || ''} alt={user.user_metadata?.name || 'Usuario'} />
+                  <AvatarFallback className="bg-brand-green text-white">
+                    {getUserInitials()}
+                  </AvatarFallback>
+                </Avatar>
+                
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="flex items-center gap-1 text-brand-green border-brand-green hover:bg-brand-green/10"
+                  onClick={signOut}
+                >
+                  <LogOut size={16} />
+                  <span>Salir</span>
+                </Button>
+              </div>
+            ) : (
+              <Link to="/auth">
+                <Button className="bg-brand-green hover:bg-brand-green/90">
+                  Iniciar sesión
+                </Button>
+              </Link>
+            )}
           </div>
           
           <div className="flex md:hidden">
@@ -101,11 +136,37 @@ const Navbar = () => {
               )
             ))}
             <div className="mt-4 px-3 py-2">
-              <Link to="/comunidad" onClick={toggleMenu}>
-                <Button className="bg-brand-green hover:bg-brand-green/90 w-full">
-                  Únete ahora
-                </Button>
-              </Link>
+              {user ? (
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-2">
+                    <Avatar className="h-8 w-8 border border-brand-green">
+                      <AvatarImage src={user.user_metadata?.avatar_url || ''} alt={user.user_metadata?.name || 'Usuario'} />
+                      <AvatarFallback className="bg-brand-green text-white">
+                        {getUserInitials()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="font-medium">{user.user_metadata?.name || user.user_metadata?.full_name || user.email}</span>
+                  </div>
+                  
+                  <Button 
+                    variant="outline" 
+                    className="w-full flex items-center justify-center gap-2 text-brand-green border-brand-green hover:bg-brand-green/10"
+                    onClick={() => {
+                      signOut();
+                      toggleMenu();
+                    }}
+                  >
+                    <LogOut size={16} />
+                    <span>Cerrar sesión</span>
+                  </Button>
+                </div>
+              ) : (
+                <Link to="/auth" onClick={toggleMenu}>
+                  <Button className="bg-brand-green hover:bg-brand-green/90 w-full">
+                    Iniciar sesión
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         </div>
