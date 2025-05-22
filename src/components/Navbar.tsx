@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, X, LogOut, Instagram, Twitter, Facebook, Youtube, Twitch } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -20,6 +20,14 @@ const Navbar = () => {
     { label: "Comunidad", href: "/comunidad" },
     { label: "Juegos", href: "#juegos" },
     { label: "Recompensas", href: "#recompensas" }
+  ];
+
+  const socialIcons = [
+    { Icon: Instagram, href: "#instagram", color: "#E1306C", ariaLabel: "Instagram" },
+    { Icon: Twitter, href: "#twitter", color: "#1DA1F2", ariaLabel: "Twitter" },
+    { Icon: Facebook, href: "#facebook", color: "#1877F2", ariaLabel: "Facebook" },
+    { Icon: Youtube, href: "#youtube", color: "#FF0000", ariaLabel: "YouTube" },
+    { Icon: Twitch, href: "#twitch", color: "#9146FF", ariaLabel: "Twitch" }
   ];
 
   const getUserInitials = () => {
@@ -67,6 +75,20 @@ const Navbar = () => {
                   {item.label}
                 </a>
               )
+            ))}
+          </div>
+
+          {/* Social Media Icons - Desktop */}
+          <div className="hidden md:flex items-center gap-2 mr-4">
+            {socialIcons.map(({ Icon, href, color, ariaLabel }) => (
+              <a 
+                key={ariaLabel}
+                href={href}
+                aria-label={ariaLabel}
+                className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <Icon size={20} color={color} strokeWidth={1.5} />
+              </a>
             ))}
           </div>
           
@@ -135,6 +157,22 @@ const Navbar = () => {
                 </a>
               )
             ))}
+
+            {/* Social Media Icons - Mobile */}
+            <div className="flex items-center gap-3 px-3 py-2">
+              {socialIcons.map(({ Icon, href, color, ariaLabel }) => (
+                <a 
+                  key={ariaLabel}
+                  href={href}
+                  aria-label={ariaLabel}
+                  className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                  onClick={toggleMenu}
+                >
+                  <Icon size={20} color={color} strokeWidth={1.5} />
+                </a>
+              ))}
+            </div>
+            
             <div className="mt-4 px-3 py-2">
               {user ? (
                 <div className="flex flex-col gap-4">
