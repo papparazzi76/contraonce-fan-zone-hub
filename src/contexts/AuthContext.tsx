@@ -10,6 +10,8 @@ type AuthContextType = {
   user: User | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
+  signInWithEmail: (email: string, password: string) => Promise<void>;
+  signUpWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 };
 
@@ -65,6 +67,48 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const signInWithEmail = async (email: string, password: string) => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        toast.error(`Error al iniciar sesión: ${error.message}`);
+        console.error('Error de autenticación:', error);
+      } else {
+        toast.success('Inicio de sesión exitoso');
+        navigate('/');
+      }
+    } catch (error) {
+      toast.error('Error al iniciar sesión');
+      console.error('Error inesperado:', error);
+    }
+  };
+
+  const signUpWithEmail = async (email: string, password: string) => {
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: window.location.origin,
+        },
+      });
+
+      if (error) {
+        toast.error(`Error al registrarse: ${error.message}`);
+        console.error('Error de registro:', error);
+      } else {
+        toast.success('Registro exitoso. Verifica tu correo electrónico para confirmar tu cuenta.');
+      }
+    } catch (error) {
+      toast.error('Error al registrarse');
+      console.error('Error inesperado:', error);
+    }
+  };
+
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
@@ -77,7 +121,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ session, user, loading, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ session, user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, signOut }}>
       {children}
     </AuthContext.Provider>
   );
