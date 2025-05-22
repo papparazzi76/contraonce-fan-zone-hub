@@ -6,7 +6,7 @@ export const rewardsData = [
     title: "Cupón 10% de descuento",
     description: "Válido para cualquier producto de la tienda",
     cost: 200,
-    type: "coupon",
+    type: "coupon" as const,
     stock: 100,
     expiryDate: "2025-12-31",
     isPopular: true
@@ -16,7 +16,7 @@ export const rewardsData = [
     title: "Camiseta exclusiva 11contraonce",
     description: "Edición limitada, talla a elegir",
     cost: 750,
-    type: "item",
+    type: "item" as const,
     stock: 15,
     expiryDate: "2025-10-15",
     isPopular: true
@@ -26,7 +26,7 @@ export const rewardsData = [
     title: "Entrada partido Liga",
     description: "Partido a escoger, sujeto a disponibilidad",
     cost: 1500,
-    type: "item",
+    type: "item" as const,
     stock: 5,
     expiryDate: "2025-06-30",
     isPopular: false
@@ -36,7 +36,7 @@ export const rewardsData = [
     title: "Bufanda oficial",
     description: "Bufanda oficial del equipo",
     cost: 500,
-    type: "item", 
+    type: "item" as const, 
     stock: 30,
     expiryDate: "2025-12-31",
     isPopular: false
@@ -46,7 +46,7 @@ export const rewardsData = [
     title: "Cupón 20% de descuento",
     description: "Válido para productos seleccionados",
     cost: 350,
-    type: "coupon",
+    type: "coupon" as const,
     stock: 50,
     expiryDate: "2025-08-15",
     isPopular: true
@@ -56,7 +56,7 @@ export const rewardsData = [
     title: "Balón firmado",
     description: "Con firmas de jugadores legendarios",
     cost: 3000,
-    type: "item",
+    type: "item" as const,
     stock: 3,
     expiryDate: "2025-07-30",
     isPopular: true
