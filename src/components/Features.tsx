@@ -19,7 +19,7 @@ const Features = () => {
       description: "Museo del fútbol con storytelling y timeline interactivo para cada prenda histórica.",
       icon: <Trophy size={24} className="text-brand-green" />,
       buttonText: "Revive la historia",
-      buttonLink: "#retro"
+      buttonLink: "/retro"
     },
     {
       id: "comunidad",
