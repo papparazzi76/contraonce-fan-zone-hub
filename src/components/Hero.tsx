@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -23,9 +24,11 @@ const Hero = () => {
               <Button size="lg" className="bg-brand-green hover:bg-brand-green/90">
                 Únete a la comunidad
               </Button>
-              <Button size="lg" variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green/10">
-                Explorar tienda
-              </Button>
+              <Link to="/tienda">
+                <Button size="lg" variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green/10">
+                  Explorar tienda
+                </Button>
+              </Link>
             </div>
             <div className="mt-8 flex items-center gap-8">
               <div className="flex -space-x-2">
