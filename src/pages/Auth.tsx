@@ -1,12 +1,26 @@
 
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { FcGoogle } from 'react-icons/fc';
+import { toast } from '@/components/ui/sonner';
 
 const Auth = () => {
   const { user, loading, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
+  
+  // Verificar si hay un error en la URL
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const error = url.searchParams.get('error');
+    const errorDescription = url.searchParams.get('error_description');
+    
+    if (error) {
+      toast.error(`Error de autenticación: ${errorDescription || error}`);
+      console.error('Error en la autenticación:', error, errorDescription);
+    }
+  }, []);
 
   // Redirigir si el usuario ya está autenticado
   if (user && !loading) {
