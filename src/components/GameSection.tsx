@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import FantasyLeague from "./Fantasy/FantasyLeague";
@@ -50,7 +49,7 @@ const GameSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-4xl font-display mb-4">JUEGA Y GANA</h2>
+            <h2 className="text-4xl font-display mb-4 text-brand-green">JUEGA Y GANA</h2>
             <p className="text-xl mb-8 text-gray-600">
               Participa en nuestros juegos semanales, compite contra otros aficionados 
               y acumula puntos para canjear por premios exclusivos.
@@ -218,4 +217,3 @@ const GameSection = () => {
 };
 
 export default GameSection;
-
